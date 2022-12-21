@@ -1,4 +1,6 @@
 const SmeeClient = require('smee-client')
+const express = require('express')
+const { exec } = require('child_process')
 
 
 // Read smee client url from Environment variable SME_URL 
@@ -22,11 +24,30 @@ const smee = new SmeeClient({
 // Start the client asynchronously
 const events = smee.start()
 
+// start express server listening to port 3000 and listening for a post request on /webhook
+const app = express()
+app.use(express.json())
+app.post('/webhook', (req, res) => {
+    // run cli command in current directory 'afplay -t 5 ../builtthis.mp3'
+    exec('afplay -t 5 ../builtthis.mp3', (err, stdout, stderr) => {
+        if (err) {
+            // node couldn't execute the command to play the sound
+            console.log(err)
+            return;
+        }
+    })
+
+    console.log(req.body)
+    res.send('OK')
+})
+app.listen(3000, () => console.log('Listening on port 3000'))
+
 
 // listen for ctrl+d event
 process.stdin.resume()
 process.on('SIGINT', function () {
     console.log('Ctrl+C pressed. Stopping smee client')
     events.close()
+    app.close()
     process.exit(0)
 })
