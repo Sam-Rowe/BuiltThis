@@ -1,0 +1,20 @@
+{
+  "name": "mac_node_client",
+  "version": "0.0.1",
+  "description": "A client to run mp3 on GitHub workflow completion",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/sam-rowe/BuiltThis"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "smee-client": "^1.2.3"
+  }
+}
